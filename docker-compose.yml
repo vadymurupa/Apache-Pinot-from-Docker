@@ -1,0 +1,83 @@
+version: '2.2'
+services:
+  zookeeper:
+    image: zookeeper:3.5.8
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:5.4.3
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+
+  pinot-controller-1:
+    image: apache/pinot:latest
+    command: "StartController -zkAddress zookeeper:2181 -clusterName PinotCluster -controllerPort 9001"
+    ports:
+      - "9001:9001"
+    depends_on:
+      - zookeeper
+
+  pinot-controller-2:
+    image: apache/pinot:latest
+    command: "StartController -zkAddress zookeeper:2181 -clusterName PinotCluster -controllerPort 9002"
+    ports:
+      - "9002:9002"
+    depends_on:
+      - zookeeper
+
+  pinot-controller-3:
+    image: apache/pinot:latest
+    command: "StartController -zkAddress zookeeper:2181 -clusterName PinotCluster -controllerPort 9003"
+    ports:
+      - "9003:9003"
+    depends_on:
+      - zookeeper
+
+  pinot-broker-1:
+    image: apache/pinot:latest
+    command: "StartBroker -zkAddress zookeeper:2181 -clusterName PinotCluster -brokerPort 7001"
+    ports:
+      - "7001:7001"
+    depends_on:
+      - zookeeper
+
+  pinot-broker-2:
+    image: apache/pinot:latest
+    command: "StartBroker -zkAddress zookeeper:2181 -clusterName PinotCluster -brokerPort 7002"
+    ports:
+      - "7002:7002"
+    depends_on:
+      - zookeeper
+
+  pinot-server-1:
+    image: apache/pinot:latest
+    command: "StartServer -zkAddress zookeeper:2181 -clusterName PinotCluster -serverPort 8001 -serverAdminPort 8011"
+    ports:
+      - "8001:8001"
+      - "8011:8011"
+    depends_on:
+      - zookeeper
+
+  pinot-server-2:
+    image: apache/pinot:latest
+    command: "StartServer -zkAddress zookeeper:2181 -clusterName PinotCluster -serverPort 8002 -serverAdminPort 8012"
+    ports:
+      - "8002:8002"
+      - "8012:8012"
+    depends_on:
+      - zookeeper
+
+  zooinspector:
+    image: zooinspector
+    ports:
+      - "9004:9004"
+    depends_on:
+      - zookeeper
+
