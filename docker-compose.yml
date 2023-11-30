@@ -17,7 +17,7 @@ services:
       - zookeeper
 
   pinot-controller-1:
-    image: apache/pinot:latest
+    image: apachepinot/pinot:latest
     command: "StartController -zkAddress zookeeper:2181 -clusterName PinotCluster -controllerPort 9001"
     ports:
       - "9001:9001"
@@ -25,7 +25,7 @@ services:
       - zookeeper
 
   pinot-controller-2:
-    image: apache/pinot:latest
+    image: apachepinot/pinot:latest
     command: "StartController -zkAddress zookeeper:2181 -clusterName PinotCluster -controllerPort 9002"
     ports:
       - "9002:9002"
@@ -33,7 +33,7 @@ services:
       - zookeeper
 
   pinot-controller-3:
-    image: apache/pinot:latest
+    image: apachepinot/pinot:latest
     command: "StartController -zkAddress zookeeper:2181 -clusterName PinotCluster -controllerPort 9003"
     ports:
       - "9003:9003"
@@ -41,7 +41,7 @@ services:
       - zookeeper
 
   pinot-broker-1:
-    image: apache/pinot:latest
+    image: apachepinot/pinot:latest
     command: "StartBroker -zkAddress zookeeper:2181 -clusterName PinotCluster -brokerPort 7001"
     ports:
       - "7001:7001"
@@ -49,7 +49,7 @@ services:
       - zookeeper
 
   pinot-broker-2:
-    image: apache/pinot:latest
+    image: apachepinot/pinot:latest
     command: "StartBroker -zkAddress zookeeper:2181 -clusterName PinotCluster -brokerPort 7002"
     ports:
       - "7002:7002"
@@ -57,7 +57,7 @@ services:
       - zookeeper
 
   pinot-server-1:
-    image: apache/pinot:latest
+    image: apachepinot/pinot:latest
     command: "StartServer -zkAddress zookeeper:2181 -clusterName PinotCluster -serverPort 8001 -serverAdminPort 8011"
     ports:
       - "8001:8001"
@@ -66,7 +66,7 @@ services:
       - zookeeper
 
   pinot-server-2:
-    image: apache/pinot:latest
+    image: apachepinot/pinot:latest
     command: "StartServer -zkAddress zookeeper:2181 -clusterName PinotCluster -serverPort 8002 -serverAdminPort 8012"
     ports:
       - "8002:8002"
@@ -74,10 +74,4 @@ services:
     depends_on:
       - zookeeper
 
-  zooinspector:
-    image: zooinspector
-    ports:
-      - "9004:9004"
-    depends_on:
-      - zookeeper
-
+ 
