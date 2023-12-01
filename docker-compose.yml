@@ -18,6 +18,8 @@ services:
 
   pinot-controller-1:
     image: apachepinot/pinot:latest
+    volumes:
+      - ./rawData:/rawData
     command: "StartController -zkAddress zookeeper:2181 -clusterName PinotCluster -controllerPort 9001"
     ports:
       - "9001:9001"
